@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container p-5 col-sm-6 offset-sm-3 text-center">
+<div class="card border-primary sm-6 " style="max-width: 50rem;">
+    <div class="card-header"> LogIn </div>
+    <div class="card-body">
+        <form class="p-3" action="/login" method="post">
+            <div class="form-group">
+               <strong> <label>{{msg}}</label>  </strong> 
+            </div>
+        
+            <div class="form-group">
+                <label for="email"><h5>Username or Email:</h5></label>
+                <input type="email" min="90" max="200" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+    
+          
+            <div class="form-group">
+                <label for="password"><h5>Password:</h5></label>
+                <input type="password" min="90" max="200" class="form-control" id="password" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
+                <!-- <small id="passwordHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+              </div>
+    
+              <button type="submit" class="btn btn-primary"> Login </button>
+           
+        </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

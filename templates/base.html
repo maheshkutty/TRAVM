@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tours & Travel App</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"
+      integrity="sha512-GDey37RZAxFkpFeJorEUwNoIbkTwsyC736KNSYucu1WJWFK9qTdzYub8ATxktr6Dwke7nbFaioypzbDOQykoRg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+      integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Datatable -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"
+    ></script>
+    <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+    <style>
+      .fakeimg {
+        height: 200px;
+        background: #aaa;
+      }
+    </style>
+
+    <!-- <script type="text/javascript">
+  function preback() { window.history.forward();}
+  setTimeout("preback()" , 0 );
+  window.onunload = function(){null};
+  </script> -->
+  </head>
+  <body>
+    <div class="" style="margin-bottom: 0">
+      <!-- <img class= 'img-fluid' src="static/banner.jpg"> -->
+    </div>
+
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+      <a class="navbar-brand ml-5" href="/">Tours & Travel App</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarColor01"
+        aria-controls="navbarColor01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav ml-auto mr-5">
+          <li class="nav-item active">
+            <a class="nav-link" href="/Home"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+
+          <!-- <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="/singleReport">Single Testing</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/bulkReport">Bulk Testing</a>
+        </div>
+      </li> -->
+          <li class="nav-item active">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          {% if not session.get('email') %}
+          <li class="nav-item active">
+            <a class="nav-link" href="/login">LogIn</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/sign">SigIn</a>
+          </li>
+          {% endif %} {% if session.get('email') %} {% if
+          session.get('user_role') == 'A' %}
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/Home">Admin DashBoard</a>
+          </li>
+          {% elif session.get('user_role') == 'P' %}
+          <li class="nav-item active">
+            <a class="nav-link" href="/passenger/Home">DashBoard</a>
+          </li>
+          {% endif %}
+          <li class="nav-item active">
+            <a class="nav-link" href="/logout">LogOut</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <div
+      class="text-center text-white p-2"
+      style="margin-bottom: 0; background-color: #e95420; font-weight: bolder"
+    >
+      <p>2021 @Copyrights owned by :</p>
+    </div>
+  </body>
+</html>

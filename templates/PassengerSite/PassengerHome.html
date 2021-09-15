@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+
+<script type=text/javascript>
+  function showLocDetails(locId) {
+    window.location.href = '/Home/details?id=' + locId;  
+  }
+</script>
+
+<link rel="stylesheet" href="/static/homepassenger.css" />
+<div>
+  <h2 class="m-2">Welcome {{fname}}</h2>
+  <h2 class="m-2">Top Offers</h2>
+  <div class="container">
+    <div class="row align-item-center justify-content-start">
+      {% for i in location %}
+      <div class="col-md-4">
+        <div
+          class="card m-2"
+          style="
+            width: 18rem;
+            box-shadow: 3px 3px 20px 0px rgba(52, 41, 29, 0.47);
+          "
+        >
+          <img class="card-img-top" src="{{i[4][0]}}" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{{i[1]}}</h5>
+            <div class="ml-0 mb-2">
+              <div class="d-inline m-0">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                <span>{{i[3]}}</span>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" onclick="showLocDetails('{{i[0]}}')" id="loc" loc_id = {{i[0]}}>Get More Details</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

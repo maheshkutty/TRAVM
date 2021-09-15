@@ -1,0 +1,163 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="jumbotron p-5 col-sm-6 offset-sm-3 text-center border-primary">
+  <strong>
+    <h1 class="text-primary"><legend>User Registration</legend></h1>
+  </strong>
+  <br />
+  <hr />
+  <form class="p-3 pt-0" action="/sign" method="post">
+    <div class="form-group">
+      <strong> <label>{{msg}}</label> </strong>
+    </div>
+
+    <div class="form-group">
+      <label for="fname"><h5>First Name:</h5></label>
+      <input
+        type="text"
+        autocomplete="off"
+        required
+        class="form-control"
+        id="fname"
+        name="fname"
+        aria-describedby="fnameHelp"
+        placeholder="Enter First Name"
+      />
+      <!-- <small id="fnameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+
+    <div class="form-group">
+      <label for="mname"><h5>Middle Name:</h5></label>
+      <input
+        type="text"
+        autocomplete="off"
+        class="form-control"
+        id="mname"
+        name="mname"
+        aria-describedby="lnameHelp"
+        placeholder="Enter Middle Name"
+      />
+      <!-- <small id="lnameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+
+    <div class="form-group">
+      <label for="lname"><h5>Last Name:</h5></label>
+      <input
+        type="text"
+        autocomplete="off"
+        required
+        class="form-control"
+        id="lname"
+        name="lname"
+        aria-describedby="lnameHelp"
+        placeholder="Enter Last Name"
+      />
+      <!-- <small id="lnameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+    <div class="form-group">
+      <label for="addrline1" class="form-label"><h5>Address Line 1</h5></label>
+      <input
+        type="text"
+        class="form-control"
+        id="addrline1"
+        name="addrline1"
+        placeholder="Address Line 1"
+      />
+    </div>
+    <div class="form-group">
+      <label for="district" class="form-label"><h5>District</h5></label>
+      <input
+        type="text"
+        class="form-control"
+        id="district"
+        name="district"
+        placeholder="District"
+      />
+    </div>
+    <div class="form-group">
+      <label for="district" class="form-label"><h5>City</h5></label>
+      <input
+        type="text"
+        class="form-control"
+        id="city"
+        name="city"
+        placeholder="City"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="state" class="form-label"><h5>State</h5></label>
+      <input
+        type="text"
+        class="form-control"
+        id="state"
+        name="state"
+        placeholder="State"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="pincode" class="form-label"><h5>Pin Code</h5></label>
+      <input
+        type="number"
+        class="form-control"
+        id="pincode"
+        name="pincode"
+        placeholder="Pin Code"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="email"><h5>User Email:</h5></label>
+      <input
+        type="email"
+        autocomplete="off"
+        required
+        class="form-control"
+        id="email"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+      />
+      <small id="emailHelp" class="form-text text-muted"
+        >We'll never share your email with anyone else.</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNo"><h5>User Phone No:</h5></label>
+      <input
+        type="number"
+        autocomplete="off"
+        required
+        class="form-control"
+        id="phoneNo"
+        name="phoneNo"
+        aria-describedby="phoneNoHelp"
+        placeholder="Enter phoneNo"
+      />
+      <small id="phoneNoHelp" class="form-text text-muted"
+        >We'll never share your phoneNo with anyone else.</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="password"><h5>Password:</h5></label>
+      <input
+        type="password"
+        autocomplete="off"
+        required
+        class="form-control"
+        id="password"
+        name="password"
+        aria-describedby="passwordHelp"
+        placeholder="Enter password"
+      />
+      <!-- <small id="passwordHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+</div>
+
+{% endblock %}
