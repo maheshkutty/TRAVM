@@ -1,7 +1,18 @@
 from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for, session
 import os
+
+from werkzeug.datastructures import Headers
 from oracleCon import get_db, close_db
+import config
+# import requests
+import json
+import time
+from requests_cache import CachedSession
+from flask_caching import Cache
+
+requests = CachedSession(expire_after=-1)
+
 
 def checkDuplicate(locationResult, row):
     point = -1
@@ -9,6 +20,37 @@ def checkDuplicate(locationResult, row):
         if locationResult[elem][0] == row[0]:
             point = elem
     return point   
+
+@cache.cached(timeout=86400)
+def callDistanceMatrix(data, headers):
+    getDistanceMatrix = requests.post(config.ROUTEURL + "/v2/matrix/driving-car", data=json.dumps(data), headers=headers)
+    now = time.ctime(int(time.time()))
+    getDistanceMatrix = getDistanceMatrix.json()
+    return getDistanceMatrix
+
+
+def calKmDistance(sloc, dloc):
+    dloc = dloc.lower() + " india"
+    sloc = sloc.lower() + " india"
+    getSCor = requests.get(config.ROUTEURL + "/geocode/search", params={"text":sloc , "api_key":config.API_KEY})
+    getSCor = getSCor.json()
+    getDCor = requests.get(config.ROUTEURL + "/geocode/search", params={"text":dloc , "api_key":config.API_KEY})
+    now = time.ctime(int(time.time()))
+    print ("Time: {0} / Used Cache: {1}".format(now, getDCor.from_cache))
+    getDCor = getDCor.json()
+    headers = {"Content-Type":"application/json", "Authorization": config.API_KEY}
+    data = {
+        'locations':[getSCor["features"][0]["geometry"]["coordinates"],getDCor["features"][0]["geometry"]["coordinates"]],
+        'metrics':["distance"]
+    }
+    print(data)
+    getDistanceMatrix = callDistanceMatrix(data,headers)
+    # getDistanceMatrix = requests.post(config.ROUTEURL + "/v2/matrix/driving-car", data=json.dumps(data), headers=headers)
+    # now = time.ctime(int(time.time()))
+    # print ("Time: {0} / Used Cache: {1}".format(now, getDistanceMatrix.from_cache))
+    # getDistanceMatrix = getDistanceMatrix.json()
+    # print(getDistanceMatrix["distances"][0][1]) 
+    # print(getDCor)
 
 def PassengerHome():
     conn = get_db()
@@ -56,6 +98,7 @@ def LocationDetails():
         conn = get_db()
         cursor = conn.cursor()
         id = request.args.get("id")
+        print("id:", id)
         query = "SELECT l.*, h.*, t.TRAIN_ID, t.COST_PER_SEAT AS train_cost, c.CAB_ID, c.COST_PER_SEAT AS cab_cost ,b.bus_id, b.COST_PER_SEAT AS bus_cost FROM travelpackg to1 INNER JOIN LOCATION l ON to1.L_ID = l.L_ID INNER JOIN hotel h ON h.H_ID = to1.hotel_id LEFT JOIN train t ON t.TRAIN_ID = to1.train_id LEFT JOIN cab c ON c.CAB_ID = to1.CAB_ID LEFT JOIN bus b ON b.bus_id = to1.bus_id WHERE l.L_ID = :id"
         cursor.execute(query, dict(id = id))
         packDetails = cursor.fetchone()
@@ -63,5 +106,16 @@ def LocationDetails():
         imgDetails = cursor.fetchall()
         print(packDetails)
         print(imgDetails)
-        cursor.close()
-    return render_template("/PassengerSite/locationdetails.html", imgDetails=imgDetails, packDetails=packDetails)
+        calKmDistance("Delhi",packDetails[4])
+        mode = [[], []]
+        if packDetails[15][0] == "T":
+            mode[0].append("Train")
+            mode[1].append(packDetails[16])
+        if packDetails[15][0] == "B":
+            mode[0].append("Train")
+            mode[1].append(packDetails[16])
+        if packDetails[15][0] == "C":
+            mode[0].append("Cab")
+            mode[1].append(packDetails[16])
+        print(mode)
+    return render_template("/PassengerSite/locationdetails.html", imgDetails=imgDetails, packDetails=packDetails, travelMode=mode)

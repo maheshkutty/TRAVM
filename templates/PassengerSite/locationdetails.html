@@ -1,147 +1,257 @@
 {% extends "base.html" %} {% block content %}
 <style>
+  .head{
+    margin: 1rem;
+  }
   .hidetab {
     display: none;
   }
   .showtab {
     display: block;
   }
-</style>
-<!-- <script>
-  function showTab(params) {
-    let search = ".tabdetails" + params;
-    $(".tabcontainer").children().addClass("hidetab");
-    $(".tabcontainer").children().removeClass("showtab");
-    $(search).addClass("showtab");
-    $(search).removeClass("hidetab");
+  .listcontainer {
+    display: flex;
+    padding: 1rem 0 1rem 1rem;
+    box-shadow: 1px 1px 5px 1px rgba(226, 118, 17, 0.4);
+    border-radius: 5px;
+    margin: 0.5rem 0 0.5rem 0;
   }
-</script> -->
-<h1 class="text-center">Holiday Package Details</h1>
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li
-      data-target="#carouselExampleIndicators"
-      data-slide-to="0"
-      class="active"
-    ></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img
-        class="d-block w-100"
-        src="{{imgDetails[0][1]}}"
-        alt="First slide"
-        height="400px"
-      />
+  .listhead {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    color: #fd7e14;
+    font-size: large;
+    min-width: 5rem;
+    line-break: auto;
+  }
+  .slideimg {
+    width: 40rem;
+  }
+  .addcart{
+    display: block;
+    border: 1px solid #c8c8c8;
+    box-shadow: 0 4px 8px 0 rgb(138 107 118 / 8%);
+    border-radius: 10px;
+    margin-left: 0.5rem;
+  }
+  .pricecard{
+    background: #e2f2ff;
+    padding: 8px 16px;
+  }
+  .primaryBtn {
+    background-image: linear-gradient(
+93deg
+, #53b2fe, #065af3);
+    box-shadow: 0 1px 7px 0 rgb(0 0 0 / 20%);
+    color: #fff;
+    align-items: center;
+  }
+  .buttonContainer{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+  .buttonlink{
+    margin: 1rem 15rem 0 0;
+  }
+</style>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script>
+  $(function() {
+    $('input[name="dates"]').daterangepicker();
+  });
+</script>
+<div class="container">
+  <div class="row justify-content-start head">
+    <div class="col ">
+      <h2 style="color: #fd7e14; text-transform: capitalize" >{{packDetails[1]}}</h2>
+      <div class="d-flex align-items-center">
+        <i class="fas fa-location-arrow fa-sm mr-1" style="font-size:20px;"></i>
+        <span class="align-top fs-5 align-self-start" class="align-top">{{packDetails[4]}}</span>
+      </div>
     </div>
-    {% for ele in imgDetails %}
-    <div class="carousel-item">
-      <img
-        class="d-block w-100"
-        src="{{ele[1]}}"
-        alt="First slide"
-        height="400px"
-      />
+    <div class="col">
+      <label style="color: #fd7e14;">Choose Date</label>
+      <br>
+      <input type="text" name="dates" />
+    </form>
     </div>
-    {% endfor %}
   </div>
-  <a
-    class="carousel-control-prev"
-    href="#carouselExampleControls"
-    role="button"
-    data-slide="prev"
-  >
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a
-    class="carousel-control-next"
-    href="#carouselExampleControls"
-    role="button"
-    data-slide="next"
-  >
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-<div class="contianer">
   <div class="row">
     <div class="col">
-      <h1>{{packDetails[1]}}</h1>
+      <div
+        id="carouselExampleControls"
+        class="carousel slide slideimg"
+        data-ride="carousel"
+      >
+        <ol class="carousel-indicators">
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="0"
+            class="active"
+          ></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              class="d-block w-100"
+              src="{{imgDetails[0][1]}}"
+              alt="First slide"
+              height="400px"
+            />
+          </div>
+          {% for ele in imgDetails %}
+          <div class="carousel-item">
+            <img
+              class="d-block w-100"
+              src="{{ele[1]}}"
+              alt="First slide"
+              height="400px"
+            />
+          </div>
+          {% endfor %}
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
     </div>
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          id="pills-home-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-home"
-          type="button"
-          role="tab"
-          aria-controls="pills-home"
-          aria-selected="true"
+    </div>
+    <div class="col">
+        <div class="addcart">
+          <div class="pricecard">
+            <p>Price</p>
+            <p>300000</p>
+          </div>
+          <div class="buttonContainer">
+            <button class="btn primaryBtn">Book Online</button>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
+        <li class="nav-item buttonlink" role="presentation">
+          <button
+            class="nav-link active"
+            id="pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-home"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+          >
+            Descriptions
+          </button>
+        </li>
+        <li class="nav-item buttonlink" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+          >
+            Hotel Details
+          </button>
+        </li>
+        <li class="nav-item buttonlink" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-contact-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-contact"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+          >
+            Travel Details
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" style="" id="pills-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="pills-home"
+          role="tabpanel"
+          aria-labelledby="pills-home-tab"
         >
-          Home
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="pills-profile-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-profile"
-          type="button"
-          role="tab"
-          aria-controls="pills-profile"
-          aria-selected="false"
+          <div class="listcontainer">
+            <span class="listhead">City</span>
+            <span>{{packDetails[4]}}</span>
+          </div>
+          <div class="listcontainer">
+            <span class="listhead">District</span>
+            <span>{{packDetails[3]}}</span>
+          </div>
+          <div class="listcontainer">
+            <span class="listhead">Pin Code</span>
+            <span>{{packDetails[5]}}</span>
+          </div>
+          <div class="listcontainer">
+            <span class="listhead">State</span>
+            <span>{{packDetails[2]}}</span>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-profile"
+          role="tabpanel"
+          aria-labelledby="pills-profile-tab"
         >
-          Profile
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="pills-contact-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-contact"
-          type="button"
-          role="tab"
-          aria-controls="pills-contact"
-          aria-selected="false"
+          <div class="listcontainer">
+            <span class="listhead">Hotel Name</span>
+            <span>{{packDetails[7]}}</span>
+          </div>
+          <div class="listcontainer">
+            <span class="listhead">Hotel Type</span>
+            <span>Null</span>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-contact"
+          role="tabpanel"
+          aria-labelledby="pills-contact-tab"
         >
-          Contact
-        </button>
-      </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-      <div
-        class="tab-pane fade show active"
-        id="pills-home"
-        role="tabpanel"
-        aria-labelledby="pills-home-tab"
-      >
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore doloribus et perferendis est repellendus, delectus fugit cumque sint nulla eius laboriosam nesciunt, possimus aut assumenda fugiat quod numquam, hic esse!
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-profile"
-        role="tabpanel"
-        aria-labelledby="pills-profile-tab"
-      >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel sequi alias harum, dolorem beatae dignissimos possimus asperiores repellat, libero cupiditate rem? Recusandae enim deserunt illo quas provident ab tenetur aspernatur.
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-contact"
-        role="tabpanel"
-        aria-labelledby="pills-contact-tab"
-      >
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt eligendi officiis vitae consequatur, totam error obcaecati aperiam, amet non tempore delectus! Voluptatem deleniti deserunt dolore magni quasi nulla quia beatae!
+          {% for i in range(travelMode[0] | length) %}
+          <div class="listcontainer">
+            <span class="listhead">Transportation Mode</span>
+            <span>Cost</span>
+          </div>
+          <div class="listcontainer">
+            <span class="listhead">{{travelMode[0][i]}}</span>
+            <span>{{travelMode[1][i]}}</span>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-{% endblock %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </div>
+  {% endblock %}
