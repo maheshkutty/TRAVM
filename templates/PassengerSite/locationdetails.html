@@ -33,6 +33,7 @@
     box-shadow: 0 4px 8px 0 rgb(138 107 118 / 8%);
     border-radius: 10px;
     margin-left: 0.5rem;
+    padding: 5px;
   }
   .pricecard{
     background: #e2f2ff;
@@ -54,6 +55,26 @@
   .buttonlink{
     margin: 1rem 15rem 0 0;
   }
+  .timeContainer{
+    margin-top: 10px;
+    border: 1px solid #fd7e14;
+    box-shadow: 0 4px 8px 0 rgb(138 107 118 / 8%);
+    border-radius: 10px;
+    margin-left: 0.5rem;
+    padding: 8px;
+  }
+  .timeheadcontainer{
+    background-color: #fd7e14;
+    border-radius: 10px;
+  }
+  .timehead{
+    color: white;
+    padding: 10px;
+    font-size: 25px;
+  }
+  .timehead p{
+    text-align: center;
+  }
 </style>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -62,16 +83,34 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
   $(function() {
-    $('input[name="dates"]').daterangepicker();
+    $('input[name="dates"]').daterangepicker({
+      "startDate": moment(),
+      "minDate": moment(),
+      "maxDate": moment().add(365, 'days'),
+      "singleDatePicker": true,
+      "autoApply": true,
+    })
+
+    $('#citysrc').change(function (event) {
+      console.log($("#des").text())
+      packid = $("#packid").val()
+      $.getJSON("/Home/capturefare", {srcname: event.target.value, desname:$("#des").text().toLocaleLowerCase(), packid} ,function (params) {
+        console.log(params);
+        $("#packcost").text(params["totalCost"]);
+      })
+      console.log(event.target.value);
+    })
   });
 </script>
 <div class="container">
   <div class="row justify-content-start head">
     <div class="col ">
+      <input type="hidden" value={{packDetails[21]}} id="packid">
+      <input type="hidden" value={{packDetails[22]}} id="tnight">
       <h2 style="color: #fd7e14; text-transform: capitalize" >{{packDetails[1]}}</h2>
       <div class="d-flex align-items-center">
         <i class="fas fa-location-arrow fa-sm mr-1" style="font-size:20px;"></i>
-        <span class="align-top fs-5 align-self-start" class="align-top">{{packDetails[4]}}</span>
+        <span class="align-top fs-5 align-self-start" class="align-top" id="des">{{packDetails[4]}}</span>
       </div>
     </div>
     <div class="col">
@@ -79,6 +118,15 @@
       <br>
       <input type="text" name="dates" />
     </form>
+    </div>
+    <div class="col">
+      <label style="color: #fd7e14;">Source</label>
+      <br>
+      <select name="citysrc" id="citysrc">
+        {% for i in pkgSrc %}
+          <option value="{{i[0]}}">{{i[0].capitalize()}}</option>
+        {% endfor %}
+      </select>
     </div>
   </div>
   <div class="row">
@@ -140,11 +188,45 @@
     <div class="col">
         <div class="addcart">
           <div class="pricecard">
-            <p>Price</p>
-            <p>300000</p>
+            <p style="font-size: 1.2rem;">Booking & Price</p>
+            <div>
+              <span style="font-size: 2rem; color:#fd7e14; font-weight: bold;">₹</span>
+              <span id="packcost" style="font-size: 2rem; color:#fd7e14; font-weight: bold;">{{total_cost}}</span>
+              <span style="font-size: 1rem; color:#fd7e14; font-weight: bold;">Per Person</span>
+            </div>
           </div>
           <div class="buttonContainer">
             <button class="btn primaryBtn">Book Online</button>
+          </div>
+        </div>
+        <div class="timeContainer">
+          <div class="timeheadcontainer">
+            <p class="timehead">Time And Days Details</p>
+          </div>
+          <div class="container">
+            <div class="row row-cols-auto">
+              <div class="col">
+                <div class="row row-cols-auto">
+                  <div class="col">
+                    <i class="fas fa-sun" style="color:#fed426; font-size: 30px;"></i>
+                  </div>
+                  <div class="col">
+                    {{packDetails[24]}} days
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row row-cols-auto">
+                  <div class="col">
+                    <i class="fas fa-moon" style="font-size: 28px;"></i>
+                  </div>
+                  <div class="col">
+                    {{packDetails[23]}} Night
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>  
           </div>
         </div>
     </div>

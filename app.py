@@ -8,13 +8,11 @@ from HotelStaf import views as hotelStafUrl
 from Admin import views as adminUrl
 from oracleCon import get_db, close_db
 import config
-from flask_caching import Cache
 
 
 app = Flask('app')
 app.debug = True
 app.secret_key = "mysecretkey"
-cache = Cache(config={'CACHE_TYPE':config.CACHE_TYPE, 'CACHE_REDIS_HOST':config.CACHE_REDIS_HOST,'CACHE_REDIS_PORT':config.CACHE_REDIS_PORT,'CACHE_REDIS_DB':config.CACHE_REDIS_DB, 'CACHE_REDIS_URL':config.CACHE_REDIS_URL, 'CACHE_DEFAULT_TIMEOUT':config.CACHE_DEFAULT_TIMEOUT, 'CACHE_REDIS_PASS':config.CACHE_REDIS_PASS})
 
 
 # Admin Urls 
@@ -30,6 +28,7 @@ app.add_url_rule('/hotelstaf/Home', view_func = hotelStafUrl.HotelStafHome)
 #Passenger Urls
 app.add_url_rule('/Home', view_func = passengerUrl.PassengerHome)
 app.add_url_rule('/Home/details', view_func= passengerUrl.LocationDetails)
+app.add_url_rule('/Home/capturefare', view_func=passengerUrl.captureSrcCity)
 
 
 def check_user(page):
